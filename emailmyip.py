@@ -1,12 +1,9 @@
 import os
-
+import requests
 from postmarker.core import PostmarkClient
-from urllib import request
 
-req = request.Request("https://checkip.amazonaws.com", data=None)
-res = request.urlopen(req, timeout=5)
-
-ip_address = res.read().decode().strip()
+response = requests.get("https://checkip.amazonaws.com")
+ip_address = response.text.strip()
 
 postmark = PostmarkClient(server_token=os.environ['POSTMARK_API_KEY'])
 postmark.emails.send(
